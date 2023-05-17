@@ -1,4 +1,4 @@
-require_relative './nameable'
+require_relative './decorators/nameable'
 class Person
   def initialize(age, name = 'unknown', parent_permission: true)
     super()
