@@ -1,4 +1,7 @@
 require_relative './decorators/nameable'
+require_relative './decorators/capitalize_decorator'
+require_relative './decorators/trimmer_decorator'
+
 class Person < Nameable
   def initialize(age, name = 'unknown', parent_permission: true)
     super()
