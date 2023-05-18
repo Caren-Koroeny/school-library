@@ -7,3 +7,5 @@ class Classroom
         @students = []
   end
 
+  def add_students(student)
+    
