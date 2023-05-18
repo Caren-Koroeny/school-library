@@ -8,4 +8,4 @@ class Classroom
   end
 
   def add_students(student)
-    
+    @students.push(student)
