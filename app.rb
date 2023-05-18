@@ -19,3 +19,10 @@ class App
           @book.each { |book| puts " Title: #{book.title}, Author: #{book.author}" }
         end
       end
+      def list_all_people
+        if @person.empty?
+          puts 'oops! the people list is empty, kindly add a new people'
+        else
+          @person.each { |people| puts "#{people.class}, name: #{people.name}, ID: #{people.id}, Age: #{people.age}" }
+        end
+      end
