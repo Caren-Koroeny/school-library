@@ -11,3 +11,4 @@ class Classroom
     @students.push(student)
     student.Classroom = self
   end
+end
