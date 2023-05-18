@@ -13,7 +13,7 @@ class Person < Nameable
   end
 
   attr_accessor :name, :age
-  attr_reader :id,  :rentals
+  attr_reader :id, :rentals
 
   def of_age?
     @age >= 18
