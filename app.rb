@@ -26,3 +26,15 @@ class App
           @person.each { |people| puts "#{people.class}, name: #{people.name}, ID: #{people.id}, Age: #{people.age}" }
         end
       end
+      def create_person
+        puts 'do you want to create a student (1) or a teacher (2)'
+        option = gets.chomp
+        case option
+        when '1'
+          create_student
+        when '2'
+          create_teacher
+        else
+          puts 'Invalid input, kindly try puting 1 or 2'
+        end
+      end
