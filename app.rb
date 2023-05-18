@@ -12,4 +12,10 @@ class App
       @rental = []
       @classroom = Classroom.new('grade 12')
     end
-  
+    def list_all_book
+        if @book.empty?
+          puts 'oops! the book list is emplty, kindly add a new book'
+        else
+          @book.each { |book| puts " Title: #{book.title}, Author: #{book.author}" }
+        end
+      end
