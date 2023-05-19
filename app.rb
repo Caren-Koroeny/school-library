@@ -66,4 +66,13 @@ class App
         @person << Teacher.new(name, age, specialization)
         puts 'Teacher created and added successfully'
       end
-      
+      def create_book
+        puts 'Title: '
+        title = gets.chomp
+    
+        puts 'Author: '
+        author = gets.chomp
+    
+        @book << Book.new(title, author)
+        puts 'Book created and added successfully'
+      end
