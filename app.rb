@@ -52,3 +52,17 @@ class App
         @person << Student.new(name, age, @classroom, parent_permission: parent_permission == 'y')
         puts 'Student created and added succesfully'
       end
+
+      def create_teacher
+        puts 'Name: '
+        name = gets.chomp
+    
+        puts 'Age: '
+        age = gets.chomp.to_i
+    
+        puts 'Specialization: '
+        specialization = gets.chomp
+    
+        @person << Teacher.new(name, age, specialization)
+        puts 'Teacher created and added successfully'
+      end
