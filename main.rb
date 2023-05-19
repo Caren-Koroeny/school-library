@@ -46,4 +46,9 @@ class Options
       end
     end
     
+    def main
+        Options.new
+      end
+      
+      main
     
