@@ -40,4 +40,10 @@ class Options
     
         select_option(user_choice)
       end
+
+      def exit
+        puts 'Thank you for using the app, see you later!'
+      end
+    end
+    
     
