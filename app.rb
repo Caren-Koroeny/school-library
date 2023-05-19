@@ -38,3 +38,17 @@ class App
           puts 'Invalid input, kindly try puting 1 or 2'
         end
       end
+
+      def create_student
+        puts 'Name: '
+        name = gets.chomp
+    
+        puts 'Age: '
+        age = gets.chomp.to_i
+    
+        puts 'has parent permision (Y/N)'
+        parent_permission = gets.chomp.downcase
+    
+        @person << Student.new(name, age, @classroom, parent_permission: parent_permission == 'y')
+        puts 'Student created and added succesfully'
+      end
