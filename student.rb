@@ -1,4 +1,3 @@
-
 require_relative 'person'
 
 class Student < Person
@@ -10,8 +9,6 @@ class Student < Person
     @classroom = classroom
     classroom.students << self unless classroom.students.include? self
   end
-  
-  def parent_permission
-    @parent_permission
-  end
+
+  attr_reader :parent_permission
 end
