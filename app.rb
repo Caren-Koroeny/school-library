@@ -6,6 +6,7 @@ require './associations/rental'
 require './teacher'
 require './user_input'
 
+# rubocop:disable Metrics/ClassLength
 class App
   def initialize(main_choices, books = [], people = [])
     @books = books
@@ -120,7 +121,7 @@ class App
     puts ''
   end
 
-  def add_rental(books, people)
+  def add_rental(books, people) # rubocop:disable Metrics/MethodLength
     if people.empty? || books.empty?
       puts "Either People or book List is empty. Please populate these lists in order to check rentals\n\n"
       return
@@ -183,3 +184,4 @@ class App
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
