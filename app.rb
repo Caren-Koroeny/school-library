@@ -1,4 +1,5 @@
 require 'date'
+require 'set'
 
 require './associations/book'
 require './student'
@@ -122,66 +123,79 @@ class App
   end
 
   def add_rental(books, people) # rubocop:disable Metrics/MethodLength
-    if people.empty? || books.empty?
-      puts "Either People or book List is empty. Please populate these lists in order to check rentals\n\n"
-      return
+        if people.empty? || books.empty?
+          puts "Either People or book List is empty. Please populate these lists in order to check rentals\n\n"
+          return
+        end
+      
+        puts 'Select a book from the following list:'
+        list_books(books, with_id: true)
+        book_idx = UserInput.get_number('Book: ', 'Please enter a valid number!')
+      
+        puts 'Select a person from the following list:'
+        list_people(people, with_id: true)
+        person_idx = UserInput.get_number('Borrower: ', 'Please enter a valid number!')
+        date = UserInput.get_date('Date: ', 'Please enter a valid date!')
+      
+        begin
+          person = people.at(person_idx)
+          book = books.at(book_idx)
+      
+          unless book.is_a?(Book)
+            puts "Invalid book selection. Please try again!\n\n"
+            return add_rental(books, people)
+          end
+      
+          rental = Rental.new(date, book, person)
+          person.rentals << rental
+        rescue NoMethodError
+          puts "Book or person not found. Please try again!\n\n"
+          return add_rental(books, people)
+        end
+      
+        puts "Rental Added!\n\n"
+      end
+      def list_rentals(people)
+        if people.empty?
+          puts "People List is empty. Please add people in order to check their rentals\n\n"
+          return
+        end
+      
+        puts 'Select a person ID from the following list:'
+        list_people(people)
+      
+        person_id = UserInput.get_number('Person ID: ', 'Please enter a valid number!')
+        person = people.find { |current_person| current_person.id == person_id }
+      
+        if person.nil?
+          puts "Person with ID: #{person_id} not found!\n\n"
+          return list_rentals(people)
+        end
+      
+        if person.rentals.empty?
+          puts "#{person.name} didn't rent any book yet\n\n"
+        else
+          puts "Rentals for #{person.name}:"
+          displayed_rentals = Set.new
+          person.rentals.each do |rental|
+            next if displayed_rentals.include?(rental)
+      
+            if rental.book.is_a?(Book)
+              puts "Date: #{rental.date}, Book: #{rental.book.title} By #{rental.book.author}"
+            elsif rental.book.is_a?(Teacher)
+              puts "Date: #{rental.date}, Teacher: #{rental.book.name}, Specialization: #{rental.book.specialization}"
+            elsif rental.book.is_a?(Student)
+              puts "Date: #{rental.date}, Student: #{rental.book.name}, Parent Permission: #{rental.book.parent_permission}"
+            end
+      
+            displayed_rentals.add(rental)
+          end
+          puts "\n"
+        end
+      end
+      
     end
+      
 
-    puts 'Select a book from the following list:'
-    list_books(books, with_id: true)
-    book_idx = UserInput.get_number('Book: ', 'Please enter a valid number!')
-
-    puts 'Select a person from the following list:'
-    list_people(people, with_id: true)
-    person_idx = UserInput.get_number('Borrower: ', 'Please enter a valid number!')
-    date = UserInput.get_date('Date: ', 'Please enter a valid date!')
-
-    begin
-      person = people.at(person_idx)
-      book = books.at(book_idx)
-      rental = Rental.new(date, book, person)
-      person.rentals << rental
-    rescue NoMethodError
-      puts "Book or person not found. Please try again!\n\n"
-      return add_rental(books, people)
-    end
-
-    puts "Rental Added!\n\n"
-  end
-
-  def list_rentals(people)
-    if people.empty?
-      puts "People List is empty. Please add people in order to check their rentals\n\n"
-      return
-    end
-    puts 'Select a person ID from the following list:'
-    list_people(people)
-
-    person_id = UserInput.get_number('Person ID: ', 'Please enter a valid number!')
-    person = people.find { |current_person| current_person.id == person_id }
-    if person.nil?
-      puts "Person with ID: #{person_id} not found!\n\n"
-      return list_rentals(people)
-    end
-
-    if person.rentals.empty?
-      puts "#{person.name} didn't rent any book yet\n\n"
-    else
-      puts "Rentals for #{person.name}:"
-      person.rentals.each { |rental| display_rental(rental) }
-      puts "\n"
-    end
-  end
-
-  def display_rental(rental)
-    case rental.book
-    when Book
-      puts "Date: #{rental.date}, Book: #{rental.book.title} By #{rental.book.author}"
-    when Teacher
-      puts "Date: #{rental.date}, Teacher: #{rental.book.name}, Specialization: #{rental.book.specialization}"
-    when Student
-      puts "Date: #{rental.date}, Student: #{rental.book.name}, Parent Permission: #{rental.book.parent_permission}"
-    end
-  end
-end
 # rubocop:enable Metrics/ClassLength
+
